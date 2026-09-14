@@ -5,6 +5,10 @@ export const enLocale: LocalePlugin = {
   id: "en",
   label: "English",
   messages: {
+    "pathMenu.copy": "Copy path",
+    "pathMenu.actions": "Path actions",
+    "pathMenu.copied": "Path copied",
+    "pathMenu.copyFailed": "Could not copy path. Check your browser clipboard permissions.",
     "common.ok": "OK",
     "common.language": "Language",
     "common.models": "Models",

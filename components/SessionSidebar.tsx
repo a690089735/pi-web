@@ -1099,6 +1099,7 @@ export function SessionSidebar({ selectedSessionId, onSelectSession, onNewSessio
           <button
             onClick={() => setDropdownOpen((v) => !v)}
             title={selectedProject?.root ?? selectedCwd ?? ""}
+            data-copy-path={selectedProject?.root ?? selectedCwd ?? undefined}
             style={{
               width: "100%",
               display: "flex",
@@ -1228,6 +1229,7 @@ export function SessionSidebar({ selectedSessionId, onSelectSession, onNewSessio
                       whiteSpace: "nowrap",
                     }}
                     title={project.root}
+                    data-copy-path={project.root}
                   >
                     {project.key === selectedProject?.key && (
                       <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="var(--accent)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
@@ -1338,6 +1340,7 @@ export function SessionSidebar({ selectedSessionId, onSelectSession, onNewSessio
               <button
                 onClick={() => setWtDropdownOpen((v) => !v)}
                  title={currentWorktree ? t("sidebar.switchWorktreeTitle", { path: currentWorktree.path }) : t("sidebar.switchWorktree")}
+                data-copy-path={currentWorktree?.path ?? selectedCwd ?? undefined}
                 style={{
                   width: "100%",
                   height: 29,
@@ -1461,6 +1464,7 @@ export function SessionSidebar({ selectedSessionId, onSelectSession, onNewSessio
                               setWtFilter("");
                             }}
                             title={wt.path}
+                            data-copy-path={wt.path}
                             style={{
                               flex: 1,
                               minWidth: 0,
@@ -1754,6 +1758,7 @@ export function SessionSidebar({ selectedSessionId, onSelectSession, onNewSessio
                 saveExplorerOpen(next);
                 return next;
               })}
+              data-copy-path={selectedCwd ?? selectedCwdProp ?? undefined}
               style={{
                 display: "flex",
                 alignItems: "center",

@@ -526,7 +526,7 @@ function ImageViewer({ filePath, cwd, sourceSessionId, watchEnabled = true }: Pr
           flexShrink: 0,
         }}
       >
-        <span style={{ fontFamily: "var(--font-mono)" }} title={filePath}>
+        <span style={{ fontFamily: "var(--font-mono)" }} title={filePath} data-copy-path={filePath}>
           {getRelativeFilePath(filePath, cwd)}
         </span>
         <span style={{ marginLeft: "auto" }}>{ext || "image"}</span>
@@ -696,7 +696,7 @@ function AudioViewer({ filePath, cwd, sourceSessionId, watchEnabled = true }: Pr
           flexShrink: 0,
         }}
       >
-        <span style={{ fontFamily: "var(--font-mono)" }} title={filePath}>
+        <span style={{ fontFamily: "var(--font-mono)" }} title={filePath} data-copy-path={filePath}>
           {getRelativeFilePath(filePath, cwd)}
         </span>
         <span style={{ marginLeft: "auto" }}>{ext || "audio"}</span>
@@ -849,7 +849,7 @@ function VideoViewer({ filePath, cwd, sourceSessionId, watchEnabled = true }: Pr
           flexShrink: 0,
         }}
       >
-        <span style={{ fontFamily: "var(--font-mono)" }} title={filePath}>
+        <span style={{ fontFamily: "var(--font-mono)" }} title={filePath} data-copy-path={filePath}>
           {getRelativeFilePath(filePath, cwd)}
         </span>
         <span style={{ marginLeft: "auto" }}>{ext || "video"}</span>
@@ -1036,7 +1036,7 @@ function DocumentViewer({ filePath, cwd, sourceSessionId, watchEnabled = true }:
           flexShrink: 0,
         }}
       >
-        <span style={{ fontFamily: "var(--font-mono)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }} title={filePath}>
+        <span style={{ fontFamily: "var(--font-mono)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }} title={filePath} data-copy-path={filePath}>
           {getRelativeFilePath(filePath, cwd)}
         </span>
         <span style={{ marginLeft: "auto" }}>{ext === "docx" ? "docx preview" : "pdf"}</span>
@@ -1561,7 +1561,7 @@ function TextFileViewer({
           flexShrink: 0,
         }}
       >
-        <span className="file-viewer-path" style={{ fontFamily: "var(--font-mono)" }} title={filePath}>
+        <span className="file-viewer-path" style={{ fontFamily: "var(--font-mono)" }} title={filePath} data-copy-path={filePath}>
           {getRelativeFilePath(filePath, cwd)}
         </span>
 

@@ -4,6 +4,7 @@ import { useState, useCallback, useRef, useEffect, useLayoutEffect, useMemo } fr
 import { useRouter, useSearchParams } from "next/navigation";
 import { useGlobalKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts";
 import { SessionSidebar } from "./SessionSidebar";
+import { PathContextMenu } from "./PathContextMenu";
 import { ChatWindow } from "./ChatWindow";
 import type { ChatScrollPosition } from "@/lib/chat-scroll-position";
 import { FileViewer } from "./FileViewer";
@@ -1127,7 +1128,7 @@ export function AppShell() {
         onOpenTerminal={handleOpenTerminal}
         explorerRefreshKey={explorerRefreshKey}
         onExplorerRefresh={handleExplorerRefresh}
-        onAtMention={handleAtMention}
+        onAtMention={showChat ? handleAtMention : undefined}
         onAtMentions={handleAtMentions}
         onBackgroundTaskDone={handleBackgroundTaskDone}
         onRunningSessionIdsChange={handleRunningSessionIdsChange}
@@ -1733,6 +1734,7 @@ export function AppShell() {
 
   return (
     <>
+    <PathContextMenu key={`${selectedSession?.id ?? ""}:${effectiveNewSessionCwd ?? ""}`} />
     <style>{`
       @keyframes session-info-pop {
         0% {
@@ -2172,7 +2174,7 @@ export function AppShell() {
                           {sessionRows.map((row) => (
                             <div key={`session-info:${row.label}`} style={{ display: "contents" }}>
                               <div style={{ color: "var(--text-dim)", whiteSpace: "nowrap" }}>{row.label}</div>
-                              <div style={{
+                              <div data-copy-path={row.copyField === "file" && sessionStats.sessionFile ? sessionStats.sessionFile : undefined} style={{
                                 color: "var(--text-muted)",
                                 minWidth: 0,
                                 overflowWrap: "anywhere",
@@ -2192,7 +2194,7 @@ export function AppShell() {
                           {projectRows.map((row) => (
                             <div key={`project-info:${row.label}`} style={{ display: "contents" }}>
                               <div style={{ color: "var(--text-dim)", whiteSpace: "nowrap" }}>{row.label}</div>
-                              <div style={{
+                              <div data-copy-path={row.copyField === "projectDir" || row.copyField === "gitWorktree" ? row.value : undefined} style={{
                                 color: "var(--text-muted)",
                                 minWidth: 0,
                                 overflowWrap: "anywhere",

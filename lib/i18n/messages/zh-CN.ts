@@ -5,6 +5,10 @@ export const zhCNLocale: LocalePlugin = {
   id: "zh-CN",
   label: "简体中文",
   messages: {
+    "pathMenu.copy": "复制路径",
+    "pathMenu.actions": "路径操作",
+    "pathMenu.copied": "路径已复制",
+    "pathMenu.copyFailed": "复制路径失败，请检查浏览器剪贴板权限。",
     "common.ok": "确定",
     "common.language": "语言",
     "common.models": "模型",

@@ -5,6 +5,10 @@ export const zhTWLocale: LocalePlugin = {
   id: "zh-TW",
   label: "繁體中文",
   messages: {
+    "pathMenu.copy": "複製路徑",
+    "pathMenu.actions": "路徑操作",
+    "pathMenu.copied": "路徑已複製",
+    "pathMenu.copyFailed": "複製路徑失敗，請檢查瀏覽器剪貼簿權限。",
     "common.ok": "確定",
     "common.language": "語言",
     "common.models": "模型",
