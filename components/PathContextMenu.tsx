@@ -18,10 +18,15 @@ interface MenuTarget {
 }
 
 const itemStyle: CSSProperties = {
-  display: "flex", alignItems: "center", width: "100%", minHeight: 32, boxSizing: "border-box",
+  display: "flex", alignItems: "center", gap: 8, width: "100%", minHeight: 32, boxSizing: "border-box",
   padding: "4px 12px", border: 0, borderRadius: 4, textAlign: "left",
   background: "transparent", color: "var(--text)", cursor: "pointer", fontSize: 13,
   textDecoration: "none",
+};
+
+const iconStyle: CSSProperties = {
+  width: 14, height: 14, flexShrink: 0, display: "inline-flex",
+  alignItems: "center", justifyContent: "center", lineHeight: 1,
 };
 
 /** Opt-in only: native menus, session extensions and terminal menus stay untouched. */
@@ -174,13 +179,26 @@ export function PathContextMenu() {
               const current = getPathMenuActions(target.source);
               setTarget(null);
               if (target.source.isConnected && current?.cwd === target.actions?.cwd) current?.mention?.();
-            }}>@ {t("files.mention")}</button>}
+            }}><span aria-hidden="true" style={iconStyle}>@</span><span>{t("files.mention")}</span></button>}
           <button type="button" role="menuitem" className="path-menu-item" onClick={() => {
             void copy();
             close();
-          }} style={itemStyle}>{t("pathMenu.copy")}</button>
+          }} style={itemStyle}>
+            <svg style={iconStyle} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false">
+              <rect x="9" y="9" width="13" height="13" rx="2" />
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+            </svg>
+            <span>{t("pathMenu.copy")}</span>
+          </button>
           {target.actions?.downloadUrl && <a role="menuitem" className="path-menu-item" style={itemStyle}
-            href={target.actions.downloadUrl} download onClick={close}>{t("files.download")}</a>}
+            href={target.actions.downloadUrl} download onClick={close}>
+            <svg style={iconStyle} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+              <polyline points="7 10 12 15 17 10" />
+              <line x1="12" y1="15" x2="12" y2="3" />
+            </svg>
+            <span>{t("files.download")}</span>
+          </a>}
         </div>
       )}
       {notice && <div role="status" style={{

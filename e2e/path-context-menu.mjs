@@ -66,7 +66,7 @@ try {
   await fileName.waitFor();
   const treePath = await fileName.evaluate((element) => element.closest("[data-copy-path]").dataset.copyPath);
   await fileName.click({ button: "right" });
-  assert.deepEqual(await menu.getByRole("menuitem").allTextContents(), ["@ 提及", "复制路径", "下载文件"]);
+  assert.deepEqual(await menu.getByRole("menuitem").locator("span:last-child").allTextContents(), ["提及", "复制路径", "下载文件"]);
   const assertCompactMenu = async () => {
     const sizes = await menu.getByRole("menuitem").evaluateAll((items) => items.map((item) => ({
       height: item.getBoundingClientRect().height,
@@ -76,10 +76,16 @@ try {
     })));
     assert.deepEqual(sizes, Array.from({ length: 3 }, () => ({ height: 32, paddingLeft: "12px", paddingRight: "12px", fontSize: "13px" })));
     assert.equal(await menu.evaluate((element) => getComputedStyle(element).minWidth), "140px");
+    const layout = await menu.getByRole("menuitem").evaluateAll((items) => items.map((item) => ({
+      iconWidth: item.firstElementChild.getBoundingClientRect().width,
+      iconHidden: item.firstElementChild.getAttribute("aria-hidden"),
+      labelLeft: item.lastElementChild.getBoundingClientRect().left,
+    })));
+    assert.ok(layout.every((item) => item.iconWidth === 14 && item.iconHidden === "true" && item.labelLeft === layout[0].labelLeft));
   };
   await assertCompactMenu();
   await page.keyboard.press("ArrowDown");
-  assert.equal(await page.evaluate(() => document.activeElement.textContent), "复制路径");
+  assert.equal(await page.evaluate(() => document.activeElement.textContent.trim()), "复制路径");
   await page.keyboard.press("Enter");
   await page.waitForFunction((path) => window.__copies.at(-1) === path, treePath);
   assert.equal(await page.getByRole("tab", { name: "文档 #1.txt", exact: true }).count(), 0, "Right-click must not open a file tab");
@@ -99,12 +105,12 @@ try {
   const download = await downloadPromise;
   assert.equal(download.suggestedFilename(), "fixture.txt");
   await fileName.click({ button: "right" });
-  await menu.getByRole("menuitem", { name: "@ 提及", exact: true }).click();
+  await menu.getByRole("menuitem", { name: "提及", exact: true }).click();
   await page.waitForFunction(() => document.querySelector(".chat-input-textarea")?.value.includes('@"文档 #1.txt"'));
   await page.waitForFunction(() => document.activeElement?.classList.contains("chat-input-textarea"));
   const folder = page.getByText("目录 空格", { exact: true });
   await folder.click({ button: "right" });
-  assert.deepEqual(await menu.getByRole("menuitem").allTextContents(), ["@ 提及", "复制路径"]);
+  assert.deepEqual(await menu.getByRole("menuitem").locator("span:last-child").allTextContents(), ["提及", "复制路径"]);
   await page.keyboard.press("Escape");
 
   // Chromium's actual touch input pipeline, not synthetic PointerEvent dispatch.
